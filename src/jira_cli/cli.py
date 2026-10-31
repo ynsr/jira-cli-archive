@@ -30,7 +30,7 @@ from jira_cli.completion import cmd_completion, cmd_completion_install
 def print_usage_err():
     """Print short usage to stderr."""
     print("Usage: jira-cli <command> [args...] [-h]", file=sys.stderr)
-    print("Commands: projects, search, issue, create, link, setup, help, completion, completion-install", file=sys.stderr)
+    print("Commands: projects, search, issue, create, link, setup, help, completion, completion-install, statuses", file=sys.stderr)
 
 
 def main():
@@ -78,7 +78,7 @@ def _dispatch():
 
     # Config check — skip for setup and help
     needs_config = {"projects", "search", "issue", "create", "link", "board",
-                    "sprint", "backlog", "permissions", "capabilities", "version"}
+                    "sprint", "backlog", "permissions", "capabilities", "version", "statuses"}
     cmd = sys.argv[1] if len(sys.argv) > 1 else None
     if cmd not in ("setup", "help", "completion", "completion-install", None):
         if not cfg.get("url") or not cfg.get("user") or not cfg.get("pass"):
@@ -89,7 +89,7 @@ def _dispatch():
 
     if len(sys.argv) < 2:
         print("Usage: jira-cli <command> [args...] [-h]")
-        print("Commands: projects, search, issue, create, link, setup, help, completion, completion-install")
+        print("Commands: projects, search, issue, create, link, setup, help, completion, completion-install, statuses")
         return
 
     cmd = sys.argv[1]
@@ -341,6 +341,16 @@ def _dispatch():
             sys.exit(1)
         from jira_cli.agile import cmd_board_list
         return cmd_board_list(cfg, project=flags.get("project"), fmt=flags["format"])
+    # --- statuses ---
+    if cmd == "statuses":
+        if has_help_flag(args):
+            print_help("statuses")
+            return
+        rest, flags = parse_flags(args)
+        from jira_cli.statuses import cmd_statuses
+        key = flags.get("project") or (rest[0] if rest else None)
+        return cmd_statuses(cfg, project=key, fmt=flags["format"])
+
 
     # --- sprint ---
     if cmd == "sprint":
