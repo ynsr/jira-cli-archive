@@ -36,6 +36,7 @@ jira-cli <command> [args...] [-h] [flags]
 | `board`     | `list` agile boards                         |
 | `sprint`    | `list/get/issues/current` reads; `move/restore` journaled membership moves |
 | `backlog`   | `move` issues to the backlog (journaled, verified) |
+| `statuses`  | List all available statuses for a project   |
 | `permissions` | Check project permissions                 |
 | `capabilities` | CLI version, server flavor, features, resolved field IDs |
 | `setup`     | Configure Jira credentials                  |
@@ -80,8 +81,8 @@ jira-cli sprint current --board 3
 jira-cli sprint move --sprint 548 IPG-1 --dry-run   # preview; journal written first on real runs
 jira-cli backlog move IPG-1 --dry-run
 jira-cli permissions --project IPG --check MOVE_ISSUES --format json
+jira-cli statuses IPG   # all statuses for a project (ID, name, status ID, category)
 jira-cli capabilities --format json
-jira-cli --timeout 10 --retries 2 issue PROJ-123 comments   # network flags (global)
 ```
 
 ### Planner field resolution (agent-friendly)

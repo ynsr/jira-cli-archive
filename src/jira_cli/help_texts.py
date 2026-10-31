@@ -28,6 +28,7 @@ COMMANDS:
   sprint move|restore         Move issues into a sprint / restore from a journal
   backlog move K...           Move issues to the backlog (journaled, verified)
   permissions                 Check project permissions (--check)
+  statuses [KEY]              List all available statuses for a project
   capabilities                Server flavor/version, features, resolved field IDs
   setup                       Configure credentials
   completion <shell>          Print a shell completion script (bash, zsh, fish)
@@ -331,6 +332,24 @@ with the write-API detection (v3 => cloud).
 EXAMPLES:
   jira-cli capabilities --format json
 """
+HELP["statuses"] = """jira-cli statuses — list all available statuses for a project
+
+Usage:
+  jira-cli statuses [KEY] [--project KEY] [--format <table|json>]
+
+Project resolution: --project/positional KEY > JIRA_PROJECT env > config
+'project'/'default_project' key. Output columns: ID, status name,
+status ID, category (To Do / In Progress / Done).
+
+Fetch chain (first hit wins): GET project/{key}/statuses, then the
+workflowDesigner fallback (Software Simplified Workflow for Project <KEY>),
+then the global GET status list (with GET statuscategory enrichment).
+
+EXAMPLES:
+  jira-cli statuses IPG
+  jira-cli statuses --project IPG --format json
+"""
+
 
 
 def print_help(topic="main"):

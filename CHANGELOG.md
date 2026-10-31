@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased — Story Points update
+- `statuses [KEY] [--project KEY]`: lists per-project statuses (ID, name, status ID, category) via `project/{key}/statuses` with workflowDesigner fallback and `statuscategory` enrichment; default key from `JIRA_PROJECT`/config.
 
 - `issue <KEY> update --story-points <n>`: writes SP via the auto-resolved Story Points custom field (`JIRA_CLI_SP_FIELD` pins it); numeric validation, unresolved-field error, guarded by `--yes`/`--dry-run`; help/README/completions updated.
 
